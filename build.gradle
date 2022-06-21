@@ -25,9 +25,10 @@ dependencies {
     testImplementation(
             'org.junit.jupiter:junit-jupiter:5.8.2',
             'com.codeborne:selenide:6.5.1',
-            "io.qameta.allure:allure-selenide:2.18.1",
             'org.jetbrains:annotations:23.0.0',
+            "org.assertj:assertj-core:3.23.1",
             'com.github.javafaker:javafaker:1.0.2',
+            "io.qameta.allure:allure-selenide:2.18.1",
             'org.slf4j:slf4j-simple:1.7.36')
 }
 
