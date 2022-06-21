@@ -9,17 +9,18 @@ import java.io.File;
 
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
+import static io.qameta.allure.Allure.step;
 
 public class StudentsRegistrationFormPage {
 
     public CalendarComponent calendarComponent = new CalendarComponent();
 
-    @Step("Заполняем поле FirstName")
+    @Step("Заполняем поле First Name")
     public void setFirstName(String firstName) {
         $("#firstName").setValue(firstName);
     }
 
-    @Step("Заполняем поле LastName")
+    @Step("Заполняем поле Last Name")
     public void setLastName(String lastName) {
         $("#lastName").setValue(lastName);
     }
@@ -29,12 +30,12 @@ public class StudentsRegistrationFormPage {
         $("#userEmail").setValue(email);
     }
 
-    @Step("Выбираем р-баттон Gender")
+    @Step("Выбираем радиобаттон Gender")
     public void selectGender(String gender) {
         $("#genterWrapper").$(byText(gender)).click();
     }
 
-    @Step("Заполняем поле Phone")
+    @Step("Заполняем поле Mobile")
     public void setPhoneNumber(String phone) {
         $("#userNumber").setValue(phone);
     }
@@ -44,18 +45,18 @@ public class StudentsRegistrationFormPage {
         calendarComponent.setDate(date[0], date[1], date[2]); // может, лучше через мапу, но пока не изучил :(
     }
 
-    @Step("Заполняем поле Subjects (значения скрыты с помощью JS)")
+    @Step("Заполняем поле Subjects (принимаемые значения скрыты)")
     public void selectSubjects(String subject) {
         $("#subjectsInput").sendKeys(subject);
         $("#subjectsInput").pressEnter();
     }
 
-    @Step("Выбираем Hobby с помощью чекбоксов")
+    @Step("Выбираем Hobby с помощью чекбокса")
     public void selectHobby(String hobby) {
         $("#hobbiesWrapper").$(byText(hobby)).click();
     }
 
-    @Step("Загружаем картинку")
+    @Step("Загружаем файл изображения")
     public void uploadPicture(File file) {
         $("#uploadPicture").uploadFile(file);
     }
@@ -67,13 +68,13 @@ public class StudentsRegistrationFormPage {
 
     @Step("Выбираем State и City из выпадающих списков")
     public void selectStateCity(String state, String city) {
-        $("#state").click();
-        $("#stateCity-wrapper").$(byText(state)).click();
-        $("#city").click();
-        $("#stateCity-wrapper").$(byText(city)).click();
+        step("Кликаем на поле State", () -> $("#state").click());
+        step("Выбираем State", () -> $("#stateCity-wrapper").$(byText(state)).click());
+        step("Кликаем на поле City", () -> $("#city").click());
+        step("Выбираем City", () -> $("#stateCity-wrapper").$(byText(city)).click());
     }
 
-    @Step("Нажимаем кнопку Submit")
+    @Step("Нажимаем на кнопку Submit")
     public void pressSubmitButton() {
         $("#submit").click();
     }
