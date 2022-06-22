@@ -1,18 +1,15 @@
 package registration_form_tests.tests;
 
 import com.codeborne.selenide.SelenideElement;
-import io.qameta.allure.Description;
-import io.qameta.allure.Step;
+import io.qameta.allure.*;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import registration_form_tests.pages.StudentsRegistrationFormPage;
-import registration_form_tests.tests.test_data.TestSimpleData;
 import registration_form_tests.tests.test_data.enums.Genders;
 import registration_form_tests.tests.test_data.enums.Hobbies;
 import registration_form_tests.tests.test_data.enums.StatesCities;
@@ -22,45 +19,17 @@ import java.io.File;
 
 import static com.codeborne.selenide.Condition.text;
 
-class RegistrationFormPositiveTests extends TestBase {
+@Owner("a_gradov")
+@Severity(SeverityLevel.NORMAL)
+@Feature("Регистрация студента через форму")
+@DisplayName("Форма регистрации. Проверки отдельных элементов. Позитивные тесты")
+class RegistrationFormElementsTests extends TestBase {
 
     StudentsRegistrationFormPage registrationFormPage = new StudentsRegistrationFormPage();
 
-    @Test
-    @Description("Проводится один раз со всеми заполненными полями. " +
-            "Проверяется наличие всех введенных данных в таблице с результатами")
-    @DisplayName("Проверяем все поля формы")
-    void allFieldsTest() {
-        registrationFormPage.setFirstName(TestSimpleData.FIRST_NAME);
-        registrationFormPage.setLastName(TestSimpleData.LAST_NAME);
-        registrationFormPage.setUserEmail(TestSimpleData.EMAIL);
-        registrationFormPage.selectGender(TestSimpleData.GENDER);
-        registrationFormPage.setPhoneNumber(TestSimpleData.PHONE_NUMBER);
-        registrationFormPage.setDateOfBirth(TestSimpleData.FULL_DATE);
-        registrationFormPage.selectSubjects(TestSimpleData.SUBJECT);
-        registrationFormPage.selectHobby(TestSimpleData.HOBBIES);
-        registrationFormPage.uploadPicture(TestSimpleData.filePhoto);
-        registrationFormPage.setAddress(TestSimpleData.ADDRESS);
-        registrationFormPage.selectStateCity(TestSimpleData.STATE, TestSimpleData.CITY);
-        registrationFormPage.pressSubmitButton();
-
-        checkInResult(
-                TestSimpleData.FIRST_NAME,
-                TestSimpleData.LAST_NAME,
-                TestSimpleData.EMAIL,
-                TestSimpleData.GENDER,
-                TestSimpleData.PHONE_NUMBER,
-                TestSimpleData.DATE_FOR_ASSERT,
-                TestSimpleData.SUBJECT,
-                TestSimpleData.HOBBIES,
-                TestSimpleData.filePhoto.getName(),
-                TestSimpleData.ADDRESS,
-                TestSimpleData.STATE,
-                TestSimpleData.CITY);
-    }
-
-    @ParameterizedTest(name = "FirstName field tests with: {0}")
+    @ParameterizedTest(name = "Проверяем поле First Name")
     @MethodSource("registration_form_tests.tests.test_data.PositiveTestDataProvider#firstNameData")
+    @Story("Пользователь указывает свое имя")
     @Description("Проверяется наличие введенных в поле First Name данных в таблице с результатами")
     @DisplayName("Проверяем поле First Name")
     void firstNameFieldTest(String firstName) {
@@ -69,10 +38,11 @@ class RegistrationFormPositiveTests extends TestBase {
         checkInResult(firstName);
     }
 
-    @ParameterizedTest(name = "FirstName field tests via Value Sourse with: {0}")
+    @ParameterizedTest(name = "Проверяем поле First Name")
     @ValueSource(strings = {"Wade", "Dave", "Seth", "Ivan", "Riley", "Gilbert", "Jorge", "Dan", "Brian", "Roberto"})
     @Disabled("Duplicated")
     @Description("Проверяется наличие введенных в поле First Name данных в таблице с результатами")
+    @Story("Пользователь указывает свое имя")
     @DisplayName("Проверяем поле First Name")
     void firstNameFieldTestValueSource(String strings) {
         registrationFormPage.setFirstName(strings);
@@ -82,6 +52,7 @@ class RegistrationFormPositiveTests extends TestBase {
 
     @ParameterizedTest(name = "LastName field tests with: {0}")
     @MethodSource("registration_form_tests.tests.test_data.PositiveTestDataProvider#lastNameData")
+    @Story("Пользователь указывает свою фамилию")
     @Description("Проверяется наличие введенных в поле Last Name данных в таблице с результатами")
     @DisplayName("Проверяем поле Last Name")
     void lastNameFieldTest(String lastName) {
@@ -94,6 +65,7 @@ class RegistrationFormPositiveTests extends TestBase {
     @ValueSource(strings = {"Williams", "Harris", "Thomas", "Robinson", "Walker",
             "Scott", "Nelson", "Mitchell", "Morgan", "Cooper"})
     @Disabled("Duplicated")
+    @Story("Пользователь указывает свою фамилию")
     @Description("Проверяется наличие введенных в поле Last Name данных в таблице с результатами")
     @DisplayName("Проверяем поле Last Name")
     void lastNameFieldTestValueSource(String lastName) {
@@ -104,6 +76,7 @@ class RegistrationFormPositiveTests extends TestBase {
 
     @ParameterizedTest(name = "Email field tests with: {0}")
     @MethodSource("registration_form_tests.tests.test_data.PositiveTestDataProvider#emailAddressData")
+    @Story("Пользователь указывает свой Email")
     @Description("Проверяется наличие введенных в поле Email данных в таблице с результатами")
     @DisplayName("Проверяем поле Email")
     void emailFieldTest(String email) {
@@ -114,6 +87,7 @@ class RegistrationFormPositiveTests extends TestBase {
 
     @ParameterizedTest(name = "Gender RadioButton tests with: {0}")
     @EnumSource(Genders.class)
+    @Story("Пользователь указывает свой пол")
     @Description("Проверяется наличие названия радиобаттона из Gender в таблице с результатами")
     @DisplayName("Проверяем радиобаттоны Gender")
     void genderRadioButtonGenderTest(@NotNull Genders enumerate) {
@@ -125,6 +99,7 @@ class RegistrationFormPositiveTests extends TestBase {
 
     @ParameterizedTest(name = "Mobile field tests with: {0}")
     @MethodSource("registration_form_tests.tests.test_data.PositiveTestDataProvider#phoneNumberData")
+    @Story("Пользователь указывает свой номер телефона")
     @Description("Проверяется наличие введенных в поле Mobile данных в таблице с результатами")
     @DisplayName("Проверяем поле Mobile")
     void phoneNumberFieldTest(String number) {
@@ -135,6 +110,7 @@ class RegistrationFormPositiveTests extends TestBase {
 
     @ParameterizedTest(name = "Date of Birth field tests with: {0}")
     @MethodSource("registration_form_tests.tests.test_data.PositiveTestDataProvider#dateOfBirthData")
+    @Story("Пользователь указывает свою дату рождения")
     @Description("Проверяется наличие введенных в поле DateOfBirth данных в таблице с результатами")
     @DisplayName("Проверяем поле DateOfBirth")
     void dateOfBirthFieldTest(String @NotNull [] date) {
@@ -146,6 +122,7 @@ class RegistrationFormPositiveTests extends TestBase {
 
     @ParameterizedTest(name = "Subjects field tests with: {0}")
     @EnumSource(Subjects.class)
+    @Story("Пользователь указывает список предметов, выбирая из предложенных вариантов")
     @Description("Проверяется наличие введенных в поле Subjects данных в таблице с результатами")
     @DisplayName("Проверяем поле Subjects")
     void subjectsFieldTest(@NotNull Subjects enumerate) {
@@ -157,6 +134,7 @@ class RegistrationFormPositiveTests extends TestBase {
 
     @ParameterizedTest(name = "Hobbies field tests with: {0}")
     @EnumSource(Hobbies.class)
+    @Story("Пользователь указывает свое хобби, выбирая из предложенных вариантов")
     @Description("Проверяется наличие названия выбранного чекбокса из Hobbies в таблице с результатами")
     @DisplayName("Проверяем чекбоксы в Hobbies")
     void hobbiesCheckboxTest(@NotNull Hobbies enumerate) {
@@ -168,6 +146,7 @@ class RegistrationFormPositiveTests extends TestBase {
 
     @ParameterizedTest(name = "File upload tests with: {0}")
     @MethodSource("registration_form_tests.tests.test_data.PositiveTestDataProvider#imageFileData")
+    @Story("Пользователь загружает свою фотографию")
     @Description("Проверяется наличие названия загруженного изображения в таблице с результатами")
     @DisplayName("Проверяем загрузку файла изображения через форму")
     void uploadPictureTest(File file) {
@@ -178,6 +157,7 @@ class RegistrationFormPositiveTests extends TestBase {
 
     @ParameterizedTest(name = "Address field tests with: {0}")
     @MethodSource("registration_form_tests.tests.test_data.PositiveTestDataProvider#addressData")
+    @Story("Пользователь указывает свой адрес")
     @Description("Проверяется наличие введенных в поле Address данных в таблице с результатами")
     @DisplayName("Проверяем поле Address")
     void addressFieldTest(String address) {
@@ -188,6 +168,7 @@ class RegistrationFormPositiveTests extends TestBase {
 
     @ParameterizedTest(name = "State and City fields tests for: {0}")
     @EnumSource(StatesCities.class)
+    @Story("Пользователь указывает штат и город откуда он приехал")
     @Description("Проверяется наличие названий выбранных State и City в таблице с результатами")
     @DisplayName("Проверяем выпадающие списки State и City")
     void stateAndCityComboboxTest(@NotNull StatesCities enumerate) {
