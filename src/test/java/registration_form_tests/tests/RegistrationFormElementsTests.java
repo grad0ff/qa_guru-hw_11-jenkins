@@ -27,7 +27,7 @@ class RegistrationFormElementsTests extends TestBase {
 
     StudentsRegistrationFormPage registrationFormPage = new StudentsRegistrationFormPage();
 
-    @ParameterizedTest(name = "Проверяем поле First Name")
+    @ParameterizedTest()
     @MethodSource("registration_form_tests.tests.test_data.PositiveTestDataProvider#firstNameData")
     @Story("Пользователь указывает свое имя")
     @Description("Проверяется наличие введенных в поле First Name данных в таблице с результатами")
@@ -38,7 +38,7 @@ class RegistrationFormElementsTests extends TestBase {
         checkInResult(firstName);
     }
 
-    @ParameterizedTest(name = "Проверяем поле First Name")
+    @ParameterizedTest()
     @ValueSource(strings = {"Wade", "Dave", "Seth", "Ivan", "Riley", "Gilbert", "Jorge", "Dan", "Brian", "Roberto"})
     @Disabled("Duplicated")
     @Description("Проверяется наличие введенных в поле First Name данных в таблице с результатами")
@@ -50,7 +50,7 @@ class RegistrationFormElementsTests extends TestBase {
         checkInResult(strings);
     }
 
-    @ParameterizedTest(name = "LastName field tests with: {0}")
+    @ParameterizedTest()
     @MethodSource("registration_form_tests.tests.test_data.PositiveTestDataProvider#lastNameData")
     @Story("Пользователь указывает свою фамилию")
     @Description("Проверяется наличие введенных в поле Last Name данных в таблице с результатами")
@@ -61,7 +61,7 @@ class RegistrationFormElementsTests extends TestBase {
         checkInResult(lastName);
     }
 
-    @ParameterizedTest(name = "LastName field tests via Value Sourse with: {0}")
+    @ParameterizedTest()
     @ValueSource(strings = {"Williams", "Harris", "Thomas", "Robinson", "Walker",
             "Scott", "Nelson", "Mitchell", "Morgan", "Cooper"})
     @Disabled("Duplicated")
@@ -74,7 +74,7 @@ class RegistrationFormElementsTests extends TestBase {
         checkInResult(lastName);
     }
 
-    @ParameterizedTest(name = "Email field tests with: {0}")
+    @ParameterizedTest()
     @MethodSource("registration_form_tests.tests.test_data.PositiveTestDataProvider#emailAddressData")
     @Story("Пользователь указывает свой Email")
     @Description("Проверяется наличие введенных в поле Email данных в таблице с результатами")
@@ -85,7 +85,7 @@ class RegistrationFormElementsTests extends TestBase {
         checkInResult(email);
     }
 
-    @ParameterizedTest(name = "Gender RadioButton tests with: {0}")
+    @ParameterizedTest()
     @EnumSource(Genders.class)
     @Story("Пользователь указывает свой пол")
     @Description("Проверяется наличие названия радиобаттона из Gender в таблице с результатами")
@@ -97,7 +97,7 @@ class RegistrationFormElementsTests extends TestBase {
         checkInResult(gender);
     }
 
-    @ParameterizedTest(name = "Mobile field tests with: {0}")
+    @ParameterizedTest()
     @MethodSource("registration_form_tests.tests.test_data.PositiveTestDataProvider#phoneNumberData")
     @Story("Пользователь указывает свой номер телефона")
     @Description("Проверяется наличие введенных в поле Mobile данных в таблице с результатами")
@@ -108,7 +108,7 @@ class RegistrationFormElementsTests extends TestBase {
         checkInResult(number);
     }
 
-    @ParameterizedTest(name = "Date of Birth field tests with: {0}")
+    @ParameterizedTest()
     @MethodSource("registration_form_tests.tests.test_data.PositiveTestDataProvider#dateOfBirthData")
     @Story("Пользователь указывает свою дату рождения")
     @Description("Проверяется наличие введенных в поле DateOfBirth данных в таблице с результатами")
@@ -120,7 +120,7 @@ class RegistrationFormElementsTests extends TestBase {
         checkInResult(dateForAssert);
     }
 
-    @ParameterizedTest(name = "Subjects field tests with: {0}")
+    @ParameterizedTest()
     @EnumSource(Subjects.class)
     @Story("Пользователь указывает список предметов, выбирая из предложенных вариантов")
     @Description("Проверяется наличие введенных в поле Subjects данных в таблице с результатами")
@@ -132,7 +132,7 @@ class RegistrationFormElementsTests extends TestBase {
         checkInResult(subject);
     }
 
-    @ParameterizedTest(name = "Hobbies field tests with: {0}")
+    @ParameterizedTest()
     @EnumSource(Hobbies.class)
     @Story("Пользователь указывает свое хобби, выбирая из предложенных вариантов")
     @Description("Проверяется наличие названия выбранного чекбокса из Hobbies в таблице с результатами")
@@ -144,7 +144,7 @@ class RegistrationFormElementsTests extends TestBase {
         checkInResult(hobby);
     }
 
-    @ParameterizedTest(name = "File upload tests with: {0}")
+    @ParameterizedTest()
     @MethodSource("registration_form_tests.tests.test_data.PositiveTestDataProvider#imageFileData")
     @Story("Пользователь загружает свою фотографию")
     @Description("Проверяется наличие названия загруженного изображения в таблице с результатами")
@@ -155,7 +155,7 @@ class RegistrationFormElementsTests extends TestBase {
         checkInResult(file.getName());
     }
 
-    @ParameterizedTest(name = "Address field tests with: {0}")
+    @ParameterizedTest()
     @MethodSource("registration_form_tests.tests.test_data.PositiveTestDataProvider#addressData")
     @Story("Пользователь указывает свой адрес")
     @Description("Проверяется наличие введенных в поле Address данных в таблице с результатами")
@@ -166,7 +166,7 @@ class RegistrationFormElementsTests extends TestBase {
         checkInResult(address);
     }
 
-    @ParameterizedTest(name = "State and City fields tests for: {0}")
+    @ParameterizedTest()
     @EnumSource(StatesCities.class)
     @Story("Пользователь указывает штат и город откуда он приехал")
     @Description("Проверяется наличие названий выбранных State и City в таблице с результатами")
