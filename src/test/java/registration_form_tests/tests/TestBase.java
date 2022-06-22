@@ -5,10 +5,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Link;
 import io.qameta.allure.selenide.AllureSelenide;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
@@ -35,7 +32,7 @@ public class TestBase {
         step("Выставляем базовый URL ", () -> {
             Configuration.baseUrl = baseUrl;
         });
-//        step("Подключаем браузер на удаленном сервере с Selenoid", TestBase::addRemoteBrowser);
+        step("Подключаем браузер на удаленном сервере с Selenoid", TestBase::addRemoteBrowser);
     }
 
     @BeforeEach
@@ -50,6 +47,14 @@ public class TestBase {
             executeJavaScript("$('#close-fixedban').remove()");
             executeJavaScript("$('input').removeAttr('required')");
         });
+    }
+
+    @AfterEach
+    void addAttachs() {
+        Attach.addConsoleLog("Log");
+        Attach.addScreenshot("Screenshot");
+        Attach.addPageSource();
+        Attach.addVideo();
     }
 
     @AfterAll

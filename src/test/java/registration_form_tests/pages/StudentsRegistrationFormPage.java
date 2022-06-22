@@ -45,7 +45,7 @@ public class StudentsRegistrationFormPage {
         calendarComponent.setDate(date[0], date[1], date[2]); // может, лучше через мапу, но пока не изучил :(
     }
 
-    @Step("Заполняем поле Subjects (принимаемые значения скрыты)")
+    @Step("Заполняем поле Subjects (принимаемые значения изначально скрыты)")
     public void selectSubjects(String subject) {
         $("#subjectsInput").sendKeys(subject);
         $("#subjectsInput").pressEnter();
