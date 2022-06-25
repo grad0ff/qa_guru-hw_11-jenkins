@@ -4,17 +4,19 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.*;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import registration_form_tests.pages.StudentsRegistrationFormPage;
 import registration_form_tests.tests.test_data.TestSimpleData;
 
 import static com.codeborne.selenide.Condition.text;
 
+@Tag("smoke")
 @Owner("a_gradov")
 @Severity(SeverityLevel.CRITICAL)
 @Feature("Регистрация студента через форму")
 @DisplayName("Форма регистрации. Проверка всех элементов. Позитивный тест")
-public class RegistrationFormSmokeTest extends TestBase{
+public class RegistrationFormSmokeTest extends TestBase {
 
     StudentsRegistrationFormPage registrationFormPage = new StudentsRegistrationFormPage();
 
