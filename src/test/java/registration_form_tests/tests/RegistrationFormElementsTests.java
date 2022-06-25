@@ -19,6 +19,7 @@ import java.io.File;
 
 import static com.codeborne.selenide.Condition.text;
 
+@Disabled
 @Owner("a_gradov")
 @Severity(SeverityLevel.NORMAL)
 @Feature("Регистрация студента через форму")

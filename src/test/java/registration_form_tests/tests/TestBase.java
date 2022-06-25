@@ -25,64 +25,72 @@ public class TestBase {
     @Link(name = "demoqa.com", value = baseUrl)
     @DisplayName("Подготавливаем тестовый стенд")
     public static void initTests() {
-        step("Проверяем наличие папки (иначе создаем ее) для хранения временных изображений,", () -> {
-            assert imageFolder.exists() || imageFolder.mkdirs();
-        });
-        step("Добавляем слушателя AllureSelenide", () -> SelenideLogger.addListener(allureSelenide, new AllureSelenide()));
-        step("Выставляем базовый URL ", () -> {
-            Configuration.baseUrl = baseUrl;
-        });
-        step("Подключаем браузер на удаленном сервере с Selenoid", TestBase::addRemoteBrowser);
+        step("Проверяем наличие папки (иначе создаем ее) для хранения временных изображений,",
+                () -> {
+                    assert imageFolder.exists() || imageFolder.mkdirs();
+                });
+        step("Добавляем слушателя AllureSelenide",
+                () -> SelenideLogger.addListener(allureSelenide, new AllureSelenide()));
+        step("Выставляем базовый URL ",
+                () -> Configuration.baseUrl = baseUrl);
+        step("Выставляем браузер по умолчанию",
+                () -> Configuration.browser = System.getProperty("browser", "chrome"));
+//        step("Подключаем браузер на удаленном сервере с Selenoid",
+//                TestBase::addRemoteBrowser);
     }
 
     @BeforeEach
     @Link(name = "Registration Form", value = baseUrl + "/automation-practice-form")
     @DisplayName("Выполняем предварительные шаги")
     public void openPage() {
-        step("Открываем страницу с формой регистрации", () -> open("/automation-practice-form"));
-        step("Очищаем окно от рекламы с помощью JavaScript", () -> {
-            executeJavaScript("$('footer').remove()");
-            executeJavaScript("$('iframe').remove()");
-            executeJavaScript("$('#fixedban').remove()");
-            executeJavaScript("$('#close-fixedban').remove()");
-            executeJavaScript("$('input').removeAttr('required')");
-        });
+        step("Открываем страницу с формой регистрации",
+                () -> open("/automation-practice-form"));
+        step("Очищаем окно от рекламы с помощью JavaScript",
+                () -> {
+                    executeJavaScript("$('footer').remove()");
+                    executeJavaScript("$('iframe').remove()");
+                    executeJavaScript("$('#fixedban').remove()");
+                    executeJavaScript("$('#close-fixedban').remove()");
+                    executeJavaScript("$('input').removeAttr('required')");
+                });
     }
 
     @AfterEach
     void addAttachs() {
-        Attach.addConsoleLog("Log");
-        Attach.addScreenshot("Screenshot");
-        Attach.addPageSource();
-        Attach.addVideo();
+        step("Добавляем аттачи",
+                () -> {
+                    Attach.addConsoleLog("Log");
+                    Attach.addScreenshot("Screenshot");
+                    Attach.addPageSource();
+                    Attach.addVideo();
+                });
     }
 
     @AfterAll
     @DisplayName("Приводим тестовый стенд в исходное состояние")
     public static void finishTests() {
-        step("Удаляем все файлы из папки для хранения временных изображений", () -> {
-            File[] files = imageFolder.listFiles();
-            if (files != null) {
-                Arrays.stream(files).forEach(File::delete);
-            }
-        });
-        step("Закрываем webdriver", Selenide::closeWebDriver);
-        step("Удаляем слушателя AllureSelenide", () -> {
-            SelenideLogger.removeListener(allureSelenide);
-        });
+        step("Удаляем все файлы из папки для хранения временных изображений",
+                () -> {
+                    File[] files = imageFolder.listFiles();
+                    if (files != null) Arrays.stream(files).forEach(File::delete);
+                });
+        step("Закрываем webdriver",
+                Selenide::closeWebDriver);
+        step("Удаляем слушателя AllureSelenide",
+                () -> SelenideLogger.removeListener(allureSelenide));
     }
 
     private static void addRemoteBrowser() {
-        step("Выставляем URL сервера с Selenoid", () -> {
-            Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
-        });
-        step("Выставляем параметры для работы с удаленным браузером", () -> {
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.setJavascriptEnabled(false);
-            capabilities.setCapability("enableVNC", true);
-            capabilities.setCapability("enableVideo", true);
-            Configuration.browserCapabilities = capabilities;
-        });
+        step("Выставляем URL сервера с Selenoid",
+                () -> Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub");
+        step("Выставляем параметры для работы с удаленным браузером",
+                () -> {
+                    DesiredCapabilities capabilities = new DesiredCapabilities();
+                    capabilities.setJavascriptEnabled(false);
+                    capabilities.setCapability("enableVNC", true);
+                    capabilities.setCapability("enableVideo", true);
+                    Configuration.browserCapabilities = capabilities;
+                });
     }
 }
 
