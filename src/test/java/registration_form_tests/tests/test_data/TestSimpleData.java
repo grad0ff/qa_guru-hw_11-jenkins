@@ -11,20 +11,21 @@ public class TestSimpleData {
     private static final Grandomizer grandomizer = new Grandomizer();
 
     public static File filePhoto = grandomizer.randomImage();
-    public static String FIRST_NAME = faker.name().firstName(),
+    public static String[] FULL_DATE = grandomizer.randomDayMonthYear();
+    public static String
+            FIRST_NAME = faker.name().firstName(),
             LAST_NAME = faker.name().lastName(),
             EMAIL = faker.internet().emailAddress(),
             GENDER = grandomizer.randomGender(),
             PHONE_NUMBER = grandomizer.randomPhoneNumberString(),
-            DAY = grandomizer.randomDayString(),
-            MONTH = grandomizer.randomMonth(),
-            YEAR = grandomizer.randomYearString(),
+            DAY = FULL_DATE[0],
+            MONTH = FULL_DATE[1],
+            YEAR = FULL_DATE[2],
             DATE_FOR_ASSERT = DAY + ' ' + MONTH + ',' + YEAR,
             SUBJECT = "Art",
             HOBBIES = "Sports",
             ADDRESS = faker.address().fullAddress(),
             STATE = "NCR",
             CITY = "Delhi";
-    public static String[] FULL_DATE = new String[]{DAY, MONTH, YEAR};
 
 }

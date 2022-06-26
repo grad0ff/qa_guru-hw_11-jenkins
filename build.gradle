@@ -24,7 +24,8 @@ allure {
 dependencies {
     testImplementation(
             'org.junit.jupiter:junit-jupiter:5.8.2',
-            'com.codeborne:selenide:6.5.1',
+            "org.aeonbits.owner:owner:1.0.12",
+            'com.codeborne:selenide:6.6.3',
             'org.jetbrains:annotations:23.0.0',
             "org.assertj:assertj-core:3.23.1",
             'com.github.javafaker:javafaker:1.0.2',

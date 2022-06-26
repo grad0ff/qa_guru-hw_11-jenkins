@@ -3,8 +3,10 @@ package registration_form_tests.tests;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import config.CredentialsConfig;
 import io.qameta.allure.Link;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -17,6 +19,8 @@ import static io.qameta.allure.Allure.step;
 
 public class TestBase {
 
+    private static final CredentialsConfig config = ConfigFactory.create(CredentialsConfig.class);
+
     public static File imageFolder = new File("src/test/resources/temp");
     public static final String allureSelenide = "allureSelenide";
     public static final String baseUrl = "https://demoqa.com";
@@ -26,21 +30,27 @@ public class TestBase {
     @DisplayName("Подготавливаем тестовый стенд")
     public static void initTests() {
         step(
-                "Добавляем слушателя AllureSelenide",
-                () -> SelenideLogger.addListener(allureSelenide, new AllureSelenide()));
+                "Выставляем браузер для выполнения тестов",
+                () -> Configuration.browser = System.getProperty("browser", "chrome")
+        );
         step(
-                "Выставляем браузер по умолчанию",
-                () -> Configuration.browser = System.getProperty("browser", "chrome"));
+                "Подключаем удаленный сервер с Selenoid",
+                TestBase::addRemoteBrowser
+        );
         step(
                 "Выставляем базовый URL ",
-                () -> Configuration.baseUrl = baseUrl);
-        step("Подключаем браузер на удаленном сервере с Selenoid",
-                TestBase::addRemoteBrowser);
+                () -> Configuration.baseUrl = baseUrl
+        );
+        step(
+                "Добавляем слушателя AllureSelenide",
+                () -> SelenideLogger.addListener(allureSelenide, new AllureSelenide())
+        );
         step(
                 "Проверяем наличие папки (иначе создаем ее) для хранения временных изображений,",
                 () -> {
                     assert imageFolder.exists() || imageFolder.mkdirs();
-                });
+                }
+        );
     }
 
     @BeforeEach
@@ -49,7 +59,8 @@ public class TestBase {
     public void openPage() {
         step(
                 "Открываем страницу с формой регистрации",
-                () -> open("/automation-practice-form"));
+                () -> open("/automation-practice-form")
+        );
         step(
                 "Очищаем окно от рекламы с помощью JavaScript",
                 () -> {
@@ -58,7 +69,8 @@ public class TestBase {
                     executeJavaScript("$('#fixedban').remove()");
                     executeJavaScript("$('#close-fixedban').remove()");
                     executeJavaScript("$('input').removeAttr('required')");
-                });
+                }
+        );
     }
 
     @AfterEach
@@ -70,7 +82,8 @@ public class TestBase {
                     Attach.addScreenshot("Screenshot");
                     Attach.addPageSource();
                     Attach.addVideo();
-                });
+                }
+        );
     }
 
     @AfterAll
@@ -81,28 +94,37 @@ public class TestBase {
                 () -> {
                     File[] files = imageFolder.listFiles();
                     if (files != null) Arrays.stream(files).forEach(File::delete);
-                });
+                }
+        );
         step(
                 "Закрываем webdriver",
-                Selenide::closeWebDriver);
+                Selenide::closeWebDriver
+        );
         step(
                 "Удаляем слушателя AllureSelenide",
-                () -> SelenideLogger.removeListener(allureSelenide));
+                () -> SelenideLogger.removeListener(allureSelenide)
+        );
     }
 
     private static void addRemoteBrowser() {
+        String login = config.login();
+        String password = config.password();
+
         step(
-                "Выставляем URL сервера с Selenoid",
-                () -> Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub");
+                "Выставляем URL сервера",
+                () -> Configuration.remote = String.format(
+                        "https://%s:%s@selenoid.autotests.cloud/wd/hub", login, password
+                )
+        );
         step(
                 "Выставляем параметры для работы с удаленным браузером",
                 () -> {
                     DesiredCapabilities capabilities = new DesiredCapabilities();
-                    capabilities.setJavascriptEnabled(false);
                     capabilities.setCapability("enableVNC", true);
                     capabilities.setCapability("enableVideo", true);
                     Configuration.browserCapabilities = capabilities;
-                });
+                }
+        );
     }
 }
 

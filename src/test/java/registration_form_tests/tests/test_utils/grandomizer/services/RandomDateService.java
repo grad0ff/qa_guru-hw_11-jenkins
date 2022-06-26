@@ -74,7 +74,7 @@ public class RandomDateService {
      */
     public static int getRandomDayOfDate(int year, @NotNull Monthes month) {
         int maxDays = month.maxDays();
-        if ((year % 100 == 0 || year % 4 == 0) && month == Monthes.FEBRUARY) {
+        if (month == Monthes.FEBRUARY && (year % 100 == 0 || year % 4 == 0)) {
             ++maxDays;
         }
         return new Random().nextInt(maxDays) + 1;
