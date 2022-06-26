@@ -4,10 +4,12 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import config.CredentialsConfig;
-import io.qameta.allure.Link;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.aeonbits.owner.ConfigFactory;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
@@ -26,8 +28,6 @@ public class TestBase {
     public static final String baseUrl = "https://demoqa.com";
 
     @BeforeAll
-    @Link(name = "demoqa.com", value = baseUrl)
-    @DisplayName("Подготавливаем тестовый стенд")
     public static void initTests() {
         step(
                 "Выставляем браузер для выполнения тестов",
@@ -61,8 +61,6 @@ public class TestBase {
     }
 
     @BeforeEach
-    @Link(name = "Registration Form", value = baseUrl + "/automation-practice-form")
-    @DisplayName("Выполняем предварительные шаги")
     public void openPage() {
         step(
                 "Открываем страницу с формой регистрации",
@@ -94,7 +92,6 @@ public class TestBase {
     }
 
     @AfterAll
-    @DisplayName("Приводим тестовый стенд в исходное состояние")
     public static void finishTests() {
         step(
                 "Удаляем все файлы из папки для хранения временных изображений",
