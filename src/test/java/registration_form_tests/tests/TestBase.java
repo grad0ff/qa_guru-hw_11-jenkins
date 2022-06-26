@@ -34,8 +34,15 @@ public class TestBase {
                 () -> Configuration.browser = System.getProperty("browser", "chrome")
         );
         step(
+                "Выставляем размер окна браузера",
+                () -> Configuration.browserSize = System.getProperty("browserSize", "1366x768")
+        );
+        step(
                 "Подключаем удаленный сервер с Selenoid",
-                TestBase::addRemoteBrowser
+                () -> {
+                    String remoteUrl = System.getProperty("remoteUrl", "");
+                    if (!remoteUrl.isEmpty()) addRemoteBrowser(remoteUrl);
+                }
         );
         step(
                 "Выставляем базовый URL ",
@@ -106,14 +113,14 @@ public class TestBase {
         );
     }
 
-    private static void addRemoteBrowser() {
+    private static void addRemoteBrowser(String remoteUrl) {
         String login = config.login();
         String password = config.password();
 
         step(
                 "Выставляем URL сервера",
                 () -> Configuration.remote = String.format(
-                        "https://%s:%s@selenoid.autotests.cloud/wd/hub", login, password
+                        "https://%s:%s@%s", login, password, remoteUrl
                 )
         );
         step(
