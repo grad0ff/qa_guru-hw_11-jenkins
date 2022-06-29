@@ -5,6 +5,7 @@ import io.qameta.allure.*;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -19,7 +20,7 @@ import java.io.File;
 
 import static com.codeborne.selenide.Condition.text;
 
-@Disabled
+@Tag("every_field_test")
 @Owner("a_gradov")
 @Severity(SeverityLevel.NORMAL)
 @Feature("Регистрация студента через форму")

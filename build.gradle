@@ -50,6 +50,12 @@ tasks.withType(Test) {
 
 task smokeTests(type: Test) {
     useJUnitPlatform {
-        includeTags "smoke"
+        includeTags "smoke_test"
+    }
+}
+
+task formEveryFieldTests(type: Test) {
+    useJUnitPlatform {
+        includeTags "every_field_test"
     }
 }
